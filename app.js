@@ -8,9 +8,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 dotenv.config();
-connectDB();
 
 const app = express();
+connectDB();
+
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -18,6 +19,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
-const PORT = process.env.PORT || 5000;
+const { errorHandler } = require('./middlewares/errorMiddleware');
+app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+module.exports = app;
